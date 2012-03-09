@@ -7,13 +7,27 @@ h2. How to Use
 
 h3. Download or checkout
 
+You can either download the ZIP file:
+https://github.com/srs81/CakePHP-AjaxMultiUpload/zipball/master
+
+or checkout the code (leave the Password field blank):
+git clone https://srs81@github.com/srs81/CakePHP-AjaxMultiUpload.git
+
 h3. Add to controller 
+
 
 h3. Add to views
 
+
 h3. Create file directory
 
+Make sure to create the correct files upload directory:
+bq.. cd <cake-app-root>
+mkdir webroot/files
+chmod -R 777 webroot/files
 
+The default upload directory is "files" under /webroot - but this can
+be changed (see FAQ below.) 
 
 
 h2. FAQ
@@ -28,7 +42,7 @@ h4. Change directory paths
 
 h2. Future Work
 
-Deleting files is not supported in this version. I would like to 
+Deleting files is not supported in this version.
 
 h2. Support
 
