@@ -1,0 +1,35 @@
+h1. AjaxMultiUpload Plugin for CakePHP
+
+
+
+
+h2. How to Use
+
+h3. Download or checkout
+
+h3. Add to controller 
+
+h3. Add to views
+
+h3. Create file directory
+
+
+
+
+h2. FAQ
+
+h4. No database/table schema changes?
+
+h4. Change directory 
+
+h4. Change directory paths
+
+
+
+h2. Future Work
+
+Deleting files is not supported in this version. I would like to 
+
+h2. Support
+
+
