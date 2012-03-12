@@ -17,6 +17,7 @@ You can either download the ZIP file:
 https://github.com/srs81/CakePHP-AjaxMultiUpload/zipball/master
 
 or checkout the code (leave the Password field blank):
+
 ```
 git clone https://srs81@github.com/srs81/CakePHP-AjaxMultiUpload.git
 ```
@@ -29,6 +30,7 @@ the app root.
 ### Add to bootstrap.php load
 
 Open Config/bootstrap.php and add this line:
+
 ```php
 CakePlugin::load('AjaxMultiUpload');
 ```
