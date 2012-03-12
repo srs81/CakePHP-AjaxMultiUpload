@@ -1,20 +1,55 @@
 # AjaxMultiUpload Plugin for CakePHP
 
+A full-blown AJAX file uploader plugin for CakePHP 2.0.x and 2.1.
+Using this, you can add multiple file upload behaviour to any or all
+of your models without having to modify the database or schema.
+
+You can click on the Upload File button, or drag-and-drop files into 
+it. You can upload multiple files at a time without having to click
+on any button, and it shows you a nice progress notification during
+uploads.
 
 ## How to Use
 
 ### Download or checkout
 
 You can either download the ZIP file:
-* https://github.com/srs81/CakePHP-AjaxMultiUpload/zipball/master
+https://github.com/srs81/CakePHP-AjaxMultiUpload/zipball/master
 
 or checkout the code (leave the Password field blank):
-* git clone https://srs81@github.com/srs81/CakePHP-AjaxMultiUpload.git
+```
+git clone https://srs81@github.com/srs81/CakePHP-AjaxMultiUpload.git
+```
 
 ### Put it in the Plugin/ directory
 
 Unzip or move the contents of this to "Plugin/AjaxMultiUpload" under
 the app root.
+
+### Add to bootstrap.php load
+
+Open Config/bootstrap.php and add this line:
+```php
+CakePlugin::load('AjaxMultiUpload');
+```
+
+This will allow the plugin to load all the files that it needs.
+
+### Create file directory
+
+Make sure to create the correct files upload directory if it doesn't
+exist already:
+<pre>
+cd cake-app-root
+mkdir webroot/files
+chmod -R 777 webroot/files
+</pre>
+
+The default upload directory is "files" under /webroot - but this can
+be changed (see FAQ below.) 
+
+You don't have to give it a 777 permission - just make sure the web 
+server user can write to this directory.
 
 ### Add to controller 
 
@@ -41,37 +76,33 @@ and this to your View/Companies/edit.ctp:
 echo $this->Upload->edit('Company', $this->Form->fields['Company.id']);
 ```
 
-### Create file directory
-
-Make sure to create the correct files upload directory:
-<pre>
-cd cake-app-root
-mkdir webroot/files
-chmod -R 777 webroot/files
-</pre>
-
-The default upload directory is "files" under /webroot - but this can
-be changed (see FAQ below.) 
-
-You don't have to give it a 777 permission - just make sure the web 
-server user can write to this directory.
-
-
 ## FAQ
 
-#### No database/table schema changes?
+#### Dude! No database/table schema changes?
 
-No. :) Just drop this plugin in the right Plugin/ directory and add 
+Nope. :) Just drop this plugin in the right Plugin/ directory and add 
 the code to the controller and views. Make sure the "files" directory
 under webroot is writable, otherwise uploads will fail.
 
 No tables/database changes are needed since the plugin uses a directory
 structure based on the model name and id to save the appropriate files
  for the model.
- 
+
+#### Help! I get file upload or file size error messages!
+
+The default upload file size limit is set to a conservative 2 MB 
+to make sure it works on all (including shared) hosting. To change 
+this:
+
+* Open up Plugin/AjaxMultipUpload/Config/bootstrap.php and change the
+"AMU.filesizeMB" setting to whatever size in MB you like.
+* Make sure to also change the upload size setting (
+upload_max_filesize and post_max_size) in your PHP settings (
+php.ini) and reboot the web server!
+
 #### Change directory 
 
-Are you stuck to the "files" directory? Nope.
+Are you stuck to the "files" directory under webroot? Nope.
 
 Open up Config/bootstrap.php under the Plugin/AjaxMultiUpload directory 
 and change the "AMU.directory" setting. 
@@ -81,6 +112,7 @@ as per CakePHP conventions.
 
 #### Change directory paths
 
+Coming soon.
 
 ## Future Work
 
