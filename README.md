@@ -6,10 +6,10 @@
 ### Download or checkout
 
 You can either download the ZIP file:
-https://github.com/srs81/CakePHP-AjaxMultiUpload/zipball/master
+* https://github.com/srs81/CakePHP-AjaxMultiUpload/zipball/master
 
 or checkout the code (leave the Password field blank):
-git clone https://srs81@github.com/srs81/CakePHP-AjaxMultiUpload.git
+* git clone https://srs81@github.com/srs81/CakePHP-AjaxMultiUpload.git
 
 ### Put it in the Plugin/ directory
 
@@ -45,13 +45,16 @@ echo $this->Upload->edit('Company', $this->Form->fields['Company.id']);
 
 Make sure to create the correct files upload directory:
 <pre>
-cd <cake-app-root>
+cd cake-app-root
 mkdir webroot/files
 chmod -R 777 webroot/files
 </pre>
 
 The default upload directory is "files" under /webroot - but this can
 be changed (see FAQ below.) 
+
+You don't have to give it a 777 permission - just make sure the web 
+server user can write to this directory.
 
 
 ## FAQ
