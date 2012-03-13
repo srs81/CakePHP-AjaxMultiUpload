@@ -127,4 +127,8 @@ and file icons from: http://www.splitbrain.org/projects/file_icons
 
 ## Support
 
+If you find this plugin useful, please consider a [donation to Shen
+Yun Performing Arts](https://www.shenyunperformingarts.org/support)
+to support traditional and historic Chinese culture.
+
 
