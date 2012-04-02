@@ -7,7 +7,7 @@ of your models without having to modify the database or schema.
 You can click on the Upload File button, or drag-and-drop files into 
 it. You can upload multiple files at a time without having to click
 on any button, and it shows you a nice progress notification during
-uploads.
+uploads. You can also delete files in edit mode.
 
 ## How to Use
 
