@@ -116,9 +116,10 @@ as per CakePHP conventions.
 
 Coming soon.
 
-## Future Work
+## ChangeLog
 
-* Deleting files is not supported in this version.
+* Version 1.0.1 / April 2, 2012: Delete functionality added
+* Version 1.0.0 / March 2012: Initial release
 
 ## Thanks
 
