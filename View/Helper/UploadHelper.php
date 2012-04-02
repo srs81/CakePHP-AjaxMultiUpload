@@ -13,7 +13,7 @@
 class UploadHelper extends AppHelper {
 
 
-	public function view ($model, $id) {
+	public function view ($model, $id, $edit=false) {
 		
 		require_once (CORE_PATH . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
 		$dir = Configure::read('AMU.directory');
@@ -25,13 +25,20 @@ class UploadHelper extends AppHelper {
 		$files = glob ("$directory/*");
 		$str = "<dt>" . __("Files") . "</dt>\n<dd>";
 		$count = 0;
+		$webroot = Router::url("/") . "ajax_multi_upload";
 		foreach ($files as $file) {
 			$type = pathinfo($file, PATHINFO_EXTENSION);
 			$str .= "<img src='" . Router::url("/") . "ajax_multi_upload/img/fileicons/$type.png' /> ";
 			$filesize = $this->format_bytes (filesize ($file));
-			$file = basename($file);
-			$url = $baseUrl . "/$file";
-			$str .= "<a href='$url'>" . $file. "</a> ($filesize)";
+			$f = basename($file);
+			$url = $baseUrl . "/$f";
+			if ($edit) {
+				$baseEncFile = base64_encode ($file);
+				$delUrl = "$webroot/uploads/delete/$baseEncFile/";			
+				$str .= "<a href='$delUrl'><img src=''" . Router::url("/") . 
+					"ajax_multi_upload/img/delete.png' alt='Delete' /></a> ";
+			}
+			$str .= "<a href='$url'>" . $f . "</a> ($filesize)";
 			$str .= "<br />\n";
 		}
 		$str .= "</dd>\n"; 
@@ -43,35 +50,35 @@ class UploadHelper extends AppHelper {
 		$dir = Configure::read('AMU.directory');
 		if (strlen($dir) < 1) $dir = "files";
 
-		$str = $this->view ($model, $id);
+		$str = $this->view ($model, $id, true);
 		$webroot = Router::url("/") . "ajax_multi_upload";
 		// Replace / with underscores for Ajax controller
 		$lastDir = str_replace ("/", "___", 
 			$this->last_dir ($model, $id));
-$str .= <<<END
-    <link rel="stylesheet" type="text/css" href="$webroot/css/fileuploader.css" />
-    <script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
-    <div id="AjaxMultiUpload">
-        <noscript>
-             <p>Please enable JavaScript to use file uploader.</p>
-        </noscript>
-    </div>
-    <script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
-    <script>        
-        function createUploader(){            
-            var uploader = new qq.FileUploader({
-                element: document.getElementById('AjaxMultiUpload'),
-                action: '$webroot/uploads/upload/$lastDir/',
-                debug: true
-            });           
-        }
-        window.onload = createUploader;     
-    </script>
+		$str .= <<<END
+			<link rel="stylesheet" type="text/css" href="$webroot/css/fileuploader.css" />
+			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
+			<div id="AjaxMultiUpload">
+				<noscript>
+					 <p>Please enable JavaScript to use file uploader.</p>
+				</noscript>
+			</div>
+			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
+			<script>        
+				function createUploader(){            
+					var uploader = new qq.FileUploader({
+						element: document.getElementById('AjaxMultiUpload'),
+						action: '$webroot/uploads/upload/$lastDir/',
+						debug: true
+					});           
+				}
+				window.onload = createUploader;     
+			</script>
 END;
 		return $str;
 	}
 
-	// Function to create the "last" set of directories for uploading
+	// The "last mile" of the directory path for where the files get uploaded
 	function last_dir ($model, $id) {
 		return $model . "/" . $id;
 	}

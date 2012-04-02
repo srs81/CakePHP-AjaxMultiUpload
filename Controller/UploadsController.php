@@ -47,6 +47,30 @@ class UploadsController extends AjaxMultiUploadAppController {
 		$this->set("result", htmlspecialchars(json_encode($result), ENT_NOQUOTES));
 	}
 
+	/**
+	 *
+	 * delete a file
+	 *
+	 * Thanks to traedamatic @ github
+	 */
+	public function delete($file = null) {
+		if(is_null($file)) {
+			$this->Session->setFlash(__('File parameter is missing'));
+			$this->redirect($this->referer());
+		}
+		$file = base64_decode($file);
+		if(file_exists($file)) {
+			if(unlink($file)) {
+				$this->Session->setFlash(__('File deleted!'));				
+			} else {
+				$this->Session->setFlash(__('Unable to delete File'));					
+			}
+		} else {
+			$this->Session->setFlash(__('File does not exist!'));					
+		}
+		
+		$this->redirect($this->referer());	
+	}
 }
 
 ?>
