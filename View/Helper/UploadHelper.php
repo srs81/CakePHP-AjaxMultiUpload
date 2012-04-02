@@ -15,7 +15,7 @@ class UploadHelper extends AppHelper {
 
 	public function view ($model, $id, $edit=false) {
 		
-		require_once (CORE_PATH . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
+		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
 		$dir = Configure::read('AMU.directory');
 		if (strlen($dir) < 1) $dir = "files";
 
@@ -28,16 +28,16 @@ class UploadHelper extends AppHelper {
 		$webroot = Router::url("/") . "ajax_multi_upload";
 		foreach ($files as $file) {
 			$type = pathinfo($file, PATHINFO_EXTENSION);
-			$str .= "<img src='" . Router::url("/") . "ajax_multi_upload/img/fileicons/$type.png' /> ";
 			$filesize = $this->format_bytes (filesize ($file));
 			$f = basename($file);
 			$url = $baseUrl . "/$f";
 			if ($edit) {
 				$baseEncFile = base64_encode ($file);
 				$delUrl = "$webroot/uploads/delete/$baseEncFile/";			
-				$str .= "<a href='$delUrl'><img src=''" . Router::url("/") . 
+				$str .= "<a href='$delUrl'><img src='" . Router::url("/") . 
 					"ajax_multi_upload/img/delete.png' alt='Delete' /></a> ";
 			}
+			$str .= "<img src='" . Router::url("/") . "ajax_multi_upload/img/fileicons/$type.png' /> ";
 			$str .= "<a href='$url'>" . $f . "</a> ($filesize)";
 			$str .= "<br />\n";
 		}
@@ -46,7 +46,7 @@ class UploadHelper extends AppHelper {
 	}
 
 	public function edit ($model, $id) {
-		require_once (CORE_PATH . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
+		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
 		$dir = Configure::read('AMU.directory');
 		if (strlen($dir) < 1) $dir = "files";
 
@@ -56,6 +56,7 @@ class UploadHelper extends AppHelper {
 		$lastDir = str_replace ("/", "___", 
 			$this->last_dir ($model, $id));
 		$str .= <<<END
+			<br /><br />
 			<link rel="stylesheet" type="text/css" href="$webroot/css/fileuploader.css" />
 			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
 			<div id="AjaxMultiUpload">
