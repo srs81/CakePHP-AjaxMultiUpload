@@ -78,6 +78,41 @@ and this to your View/Companies/edit.ctp:
 echo $this->Upload->edit('Company', $this->Form->fields['Company.id']);
 ```
 
+## Some Gotchas
+
+Thanks to rscherf@github for the following two fixes.
+
+#### Using Auth
+
+If you are using Auth (either the CakePHP core Auth or some of the
+compatible or incompatible ones), you need to modify the controller
+to allow uploads to work.
+
+Add these lines to the UploadsController.php (you may have to modify
+slightly depending on your Auth setup):
+```php
+function isAuthorized() {
+    return true;
+}
+
+function beforeFilter() {
+    $this->Auth->allow(array('upload','delete'));
+}
+```
+
+#### Subdomain
+
+If you are using a subdomain, you will have to set up the plugin
+correctly to work (depending, again, on how you have your sub-domains
+set up in your Apache/htaccess settings).
+
+These are the changes to be made to routes.php:
+```php
+// AJAX Multi Upload plugin
+Router::connect('/:subdomain/ajax_multi_upload/:controller', array('plugin' => 'ajax_multi_upload'), $ops);
+Router::connect('/:subdomain/ajax_multi_upload/:controller/:action/*', array('plugin' => 'ajax_multi_upload'), $ops);
+```
+
 ## FAQ
 
 #### Dude! No database/table schema changes?
