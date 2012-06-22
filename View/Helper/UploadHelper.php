@@ -21,7 +21,7 @@ class UploadHelper extends AppHelper {
 
 		$lastDir = $this->last_dir ($model, $id);
 		$directory = WWW_ROOT . DS . $dir . DS . $lastDir;
-		$baseUrl = Router::url("/") . $dir . DS . $lastDir;
+		$baseUrl = Router::url("/") . $dir . "/" . $lastDir;
 		$files = glob ("$directory/*");
 		$str = "<dt>" . __("Files") . "</dt>\n<dd>";
 		$count = 0;
