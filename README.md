@@ -178,8 +178,8 @@ Coming soon.
 
 ## ChangeLog
 
-* Version 1.0.2 / Jul 16 2012: deleteAll() functionality added
-* Version 1.0.1 / Apr 02 2012: Delete functionality added
+* Version 1.0.2 / Jul 16 2012: deleteAll() and listing() functionality added
+* Version 1.0.1 / Apr 02 2012: Delete functionality - from view() - added
 * Version 1.0.0 / Mar 2012: Initial release
 
 ## Thanks
