@@ -14,15 +14,12 @@ class UploadHelper extends AppHelper {
 
 
 	public function view ($model, $id, $edit=false) {
-		
-		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
-		$dir = Configure::read('AMU.directory');
-		if (strlen($dir) < 1) $dir = "files";
+		$results = $this->listing ($model, $id);
+				
+		$directory = $results['directory'];
+		$baseUrl = $results['baseUrl'];
+		$files = $results['files'];
 
-		$lastDir = $this->last_dir ($model, $id);
-		$directory = WWW_ROOT . DS . $dir . DS . $lastDir;
-		$baseUrl = Router::url("/") . $dir . "/" . $lastDir;
-		$files = glob ("$directory/*");
 		$str = "<dt>" . __("Files") . "</dt>\n<dd>";
 		$count = 0;
 		$webroot = Router::url("/") . "ajax_multi_upload";
@@ -43,6 +40,18 @@ class UploadHelper extends AppHelper {
 		}
 		$str .= "</dd>\n"; 
 		return $str;
+	}
+
+	public function listing ($model, $id) {
+		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
+		$dir = Configure::read('AMU.directory');
+		if (strlen($dir) < 1) $dir = "files";
+
+		$lastDir = $this->last_dir ($model, $id);
+		$directory = WWW_ROOT . DS . $dir . DS . $lastDir;
+		$baseUrl = Router::url("/") . $dir . "/" . $lastDir;
+		$files = glob ("$directory/*");
+		return array("baseUrl" => $baseUrl, "directory" => $directory, "files" => $files);
 	}
 
 	public function edit ($model, $id) {

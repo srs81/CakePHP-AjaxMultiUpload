@@ -79,6 +79,22 @@ and this to your View/Companies/edit.ctp:
 echo $this->Upload->edit('Company', $this->Form->fields['Company.id']);
 ```
 
+### Custom listing of files
+
+If you don't like the custom views that result from this->Upload->view(), you can use the listing() function to custom-list files, or use the file listing for other purposes (generating thumbnails, for instance). 
+
+In your view, you can do this:
+
+```php
+                $results = $this->Upload->listing ($model, $id);
+
+                $directory = $results['directory'];
+                $baseUrl = $results['baseUrl'];
+                $files = $results['files'];
+```
+
+and use the directory, baseUrl, and files data structures to display your files. Look at UploadHelper's view() function to see how the listing() function is used internally.
+
 ### Add to controllers 
 
 Add the following to the delete() function of your Company controller where appropriate (either first line, or right after $this->Company->delete() check):
