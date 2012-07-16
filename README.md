@@ -86,11 +86,11 @@ If you don't like the custom views that result from this->Upload->view(), you ca
 In your view, you can do this:
 
 ```php
-                $results = $this->Upload->listing ($model, $id);
+$results = $this->Upload->listing ($model, $id);
 
-                $directory = $results['directory'];
-                $baseUrl = $results['baseUrl'];
-                $files = $results['files'];
+$directory = $results['directory'];
+$baseUrl = $results['baseUrl'];
+$files = $results['files'];
 ```
 
 and use the directory, baseUrl, and files data structures to display your files. Look at UploadHelper's view() function to see how the listing() function is used internally.
