@@ -60,6 +60,7 @@ in just your specific controller where you will use it as below:
 
 ```php
 var $helpers = array('AjaxMultiUpload.Upload');
+var $components = array('AjaxMultiUpload.Upload');
 ```
 
 ### Add to views
@@ -76,6 +77,14 @@ and this to your View/Companies/edit.ctp:
 
 ```php
 echo $this->Upload->edit('Company', $this->Form->fields['Company.id']);
+```
+
+### Add to controllers 
+
+Add the following to the delete() function of your Company controller where appropriate (either first line, or right after $this->Company->delete() check):
+ 
+```php
+echo $this->Upload->deleteAll('Company', $id);
 ```
 
 ## Some Gotchas
