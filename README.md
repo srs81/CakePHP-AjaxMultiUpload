@@ -176,8 +176,27 @@ as per CakePHP conventions.
 
 Coming soon.
 
+#### Multiple Uploads in same view/edit
+
+It is now possible to have multiple view/edit functions in the same CakePHP view. For example, for a Photo controller, add this to your view.ctp:
+
+```php
+echo $this->Upload->view('Photo', "thumbs/" . $photo['Photo']['id']);
+echo $this->Upload->view('Photo', "highres/" . $photo['Photo']['id']);
+```
+
+and this to your View/Photos/edit.ctp:
+
+```php
+echo $this->Upload->edit('Photo', "thumbs/" . $this->Form->fields['Photo.id']);
+echo $this->Upload->edit('Photo', "highres/" . $this->Form->fields['Photo.id']);
+```
+
+This allows you to upload and two sets of files to your same entity/object in a controller/view.
+
 ## ChangeLog
 
+* Version 1.0.3 / Jul 30 2012: multiple view/edit on same views possible (thanks to bobartlett@github)
 * Version 1.0.2 / Jul 16 2012: deleteAll() and listing() functionality added
 * Version 1.0.1 / Apr 02 2012: Delete functionality - from view() - added
 * Version 1.0.0 / Mar 2012: Initial release
