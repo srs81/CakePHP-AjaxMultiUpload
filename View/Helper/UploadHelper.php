@@ -68,20 +68,24 @@ class UploadHelper extends AppHelper {
 			<br /><br />
 			<link rel="stylesheet" type="text/css" href="$webroot/css/fileuploader.css" />
 			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
-			<div id="AjaxMultiUpload">
+			<div id="AjaxMultiUpload$lastDir" name="AjaxMultiUpload">
 				<noscript>
 					 <p>Please enable JavaScript to use file uploader.</p>
 				</noscript>
 			</div>
 			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
-			<script>        
-				function createUploader(){            
-					var uploader = new qq.FileUploader({
-						element: document.getElementById('AjaxMultiUpload'),
-						action: '$webroot/uploads/upload/$lastDir/',
-						debug: true
-					});           
-				}
+			<script>
+				function createUploader(){
+					var amuCollection = document.getElementsByName("AjaxMultiUpload");
+					for (var i = 0, max = amuCollection.length; i < max; i++) {
+							action = amuCollection[i].id.replace('AjaxMultiUpload', '');
+							window['uploader'+i] = new qq.FileUploader({
+								element: amuCollection[i],
+								action: '$webroot/uploads/upload/' + action + '/',
+								debug: true
+							});
+						}
+					}
 				window.onload = createUploader;     
 			</script>
 END;
