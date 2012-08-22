@@ -60,7 +60,7 @@ in just your specific controller where you will use it as below:
 
 ```php
 var $helpers = array('AjaxMultiUpload.Upload');
-var $components = array('AjaxMultiUpload.Upload');
+var $components = array('Session', 'AjaxMultiUpload.Upload');
 ```
 
 ### Add to views
@@ -91,6 +91,12 @@ $results = $this->Upload->listing ($model, $id);
 $directory = $results['directory'];
 $baseUrl = $results['baseUrl'];
 $files = $results['files'];
+
+foreach ($files as $file) {
+	$f = basename($file);
+	$url = $baseUrl . "/$f";
+	echo "<a href='$url'>" . $f . "</a><br />\n";
+}
 ```
 
 and use the directory, baseUrl, and files data structures to display your files. Look at UploadHelper's view() function to see how the listing() function is used internally.
@@ -115,6 +121,7 @@ to allow uploads to work.
 
 Add these lines to the UploadsController.php (you may have to modify
 slightly depending on your Auth setup):
+
 ```php
 function isAuthorized() {
     return true;
@@ -174,7 +181,17 @@ as per CakePHP conventions.
 
 #### Change directory paths
 
-Coming soon.
+By default, the plugin stores files into /webroot/files/$model/$id . It is possible
+to change the /files/ directory through the configuration setting mentioned above.
+To change the /$model/$id/ path though (say you want to change it to md5($model . $id)),
+look for this line in Controller/Component/UploadComponent.php AND View/Helper/UploadHelper.php:
+
+```php
+	function last_dir ($model, $id) {
+```
+
+Change the function in both these files to do whatever you would like. Note that you have to make
+the changes in BOTH files for this to work.
 
 #### Multiple Uploads in same view/edit
 
@@ -204,7 +221,11 @@ This allows you to upload and two sets of files to your same entity/object in a 
 ## Thanks
 
 This uses the Ajax Upload script from: http://valums.com/ajax-upload/
-and file icons from: http://www.splitbrain.org/projects/file_icons
+and file icons from: http://www.splitbrain.org/projects/file_icons .
+
+Also, thanks to contributions from the following GitHub users: 
+* @rscherf : Getting it to work with Auth and sub-domains
+* @bobartlett : Fix to allow multiple AMU helpers in same view
 
 ## Support
 
