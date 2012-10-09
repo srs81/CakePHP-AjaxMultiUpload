@@ -23,7 +23,7 @@ class UploadComponent extends Component {
 		foreach ($files as $file) {
 			unlink($file);
 		}
-		rmdir($dirPath);
+		if (is_dir($dirPath)) rmdir($dirPath);
 	}
 
 	// The "last mile" of the directory path for where the files get uploaded
