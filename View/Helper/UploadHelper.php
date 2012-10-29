@@ -68,17 +68,41 @@ class UploadHelper extends AppHelper {
 			<br /><br />
 			<link rel="stylesheet" type="text/css" href="$webroot/css/fileuploader.css" />
 			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
-			<div id="AjaxMultiUpload$lastDir" name="AjaxMultiUpload">
+			<div class="AjaxMultiUpload$lastDir" name="AjaxMultiUpload">
 				<noscript>
 					 <p>Please enable JavaScript to use file uploader.</p>
 				</noscript>
 			</div>
 			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
 			<script>
+				if (typeof document.getElementsByClassName!='function') {
+				    document.getElementsByClassName = function() {
+				        var elms = document.getElementsByTagName('*');
+				        var ei = new Array();
+				        for (i=0;i<elms.length;i++) {
+				            if (elms[i].getAttribute('class')) {
+				                ecl = elms[i].getAttribute('class').split(' ');
+				                for (j=0;j<ecl.length;j++) {
+				                    if (ecl[j].toLowerCase() == arguments[0].toLowerCase()) {
+				                        ei.push(elms[i]);
+				                    }
+				                }
+				            } else if (elms[i].className) {
+				                ecl = elms[i].className.split(' ');
+				                for (j=0;j<ecl.length;j++) {
+				                    if (ecl[j].toLowerCase() == arguments[0].toLowerCase()) {
+				                        ei.push(elms[i]);
+				                    }
+				                }
+				            }
+				        }
+				        return ei;
+				    }
+				}
 				function createUploader(){
-					var amuCollection = document.getElementById("AjaxMultiUpload$lastDir");
+					var amuCollection = document.getElementsByClassName("AjaxMultiUpload$lastDir");
 					for (var i = 0, max = amuCollection.length; i < max; i++) {
-							action = amuCollection[i].id.replace('AjaxMultiUpload', '');
+							action = amuCollection[i].className.replace('AjaxMultiUpload', '');
 							window['uploader'+i] = new qq.FileUploader({
 								element: amuCollection[i],
 								action: '$webroot/uploads/upload/' + action + '/',
