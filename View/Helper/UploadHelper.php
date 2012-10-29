@@ -75,6 +75,30 @@ class UploadHelper extends AppHelper {
 			</div>
 			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
 			<script>
+				if (typeof document.getElementsByClassName!='function') {
+				    document.getElementsByClassName = function() {
+				        var elms = document.getElementsByTagName('*');
+				        var ei = new Array();
+				        for (i=0;i<elms.length;i++) {
+				            if (elms[i].getAttribute('class')) {
+				                ecl = elms[i].getAttribute('class').split(' ');
+				                for (j=0;j<ecl.length;j++) {
+				                    if (ecl[j].toLowerCase() == arguments[0].toLowerCase()) {
+				                        ei.push(elms[i]);
+				                    }
+				                }
+				            } else if (elms[i].className) {
+				                ecl = elms[i].className.split(' ');
+				                for (j=0;j<ecl.length;j++) {
+				                    if (ecl[j].toLowerCase() == arguments[0].toLowerCase()) {
+				                        ei.push(elms[i]);
+				                    }
+				                }
+				            }
+				        }
+				        return ei;
+				    }
+				}
 				function createUploader(){
 					var amuCollection = document.getElementsByClassName("AjaxMultiUpload$lastDir");
 					for (var i = 0, max = amuCollection.length; i < max; i++) {
