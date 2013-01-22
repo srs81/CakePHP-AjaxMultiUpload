@@ -99,7 +99,7 @@ class UploadHelper extends AppHelper {
 				        return ei;
 				    }
 				}
-				function createUploader(){
+				$(window).ready(function(){
 					var amuCollection = document.getElementsByClassName("AjaxMultiUpload$lastDir");
 					for (var i = 0, max = amuCollection.length; i < max; i++) {
 							action = amuCollection[i].className.replace('AjaxMultiUpload', '');
@@ -109,8 +109,7 @@ class UploadHelper extends AppHelper {
 								debug: true
 							});
 						}
-					}
-				window.onload = createUploader;     
+				}); 
 			</script>
 END;
 		return $str;
