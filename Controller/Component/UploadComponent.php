@@ -10,6 +10,9 @@
  *                and/or GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html)
  */
  
+
+
+ 
 class UploadComponent extends Component {
 	
 	
@@ -40,7 +43,7 @@ class UploadComponent extends Component {
 	}
 
 	// The "last mile" of the directory path for where the files get uploaded
-	function last_dir ($model, $id) {
+	public function last_dir ($model, $id) {
 		return $model . "/" . $id;
 	}
 }
