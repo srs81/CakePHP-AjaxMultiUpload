@@ -11,6 +11,19 @@
  */
  
 class UploadComponent extends Component {
+	
+	
+/**
+ * Component startup method.
+ * Called after the Controller::beforeFilter() and before the controller action
+ * @param object $controller A reference to the instantiating controller object
+ * @access public
+ */
+	public function startup(Controller $controller) {
+		if (!in_array('AjaxMultiUpload.Upload', $this->controller->helpers) && !array_key_exists('AjaxMultiUpload.Upload', $this->controller->helpers)) {
+			$this->controller->helpers[] = 'AjaxMultiUpload.Upload';
+		}
+	}
 
 	public function deleteAll ($model, $id) {
 		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
