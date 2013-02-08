@@ -32,10 +32,10 @@ the app root.
 Open Config/bootstrap.php and add this line:
 
 ```php
-CakePlugin::load('AjaxMultiUpload');
+CakePlugin::load('AjaxMultiUpload', array('bootstrap' => true));
 ```
 
-This will allow the plugin to load all the files that it needs.
+This will allow the plugin to load all the files that it needs included it's own bootstrap.
 
 ### Create file directory
 
@@ -59,9 +59,10 @@ Add to Controller/AppController.php for use in all controllers, or
 in just your specific controller where you will use it as below:
 
 ```php
-var $helpers = array('AjaxMultiUpload.Upload');
-var $components = array('Session', 'AjaxMultiUpload.Upload');
+public $components = array('Session', 'AjaxMultiUpload.Upload');
 ```
+The component will load the required helper automatically so you
+don't have to manually load it in your controllers.
 
 ### Add to views
 
@@ -123,11 +124,11 @@ Add these lines to the UploadsController.php (you may have to modify
 slightly depending on your Auth setup):
 
 ```php
-function isAuthorized() {
+public function isAuthorized() {
     return true;
 }
 
-function beforeFilter() {
+public function beforeFilter() {
     $this->Auth->allow(array('upload','delete'));
 }
 ```
@@ -187,7 +188,7 @@ To change the /$model/$id/ path though (say you want to change it to md5($model 
 look for this line in Controller/Component/UploadComponent.php AND View/Helper/UploadHelper.php:
 
 ```php
-	function last_dir ($model, $id) {
+	public function last_dir ($model, $id) {
 ```
 
 Change the function in both these files to do whatever you would like. Note that you have to make
