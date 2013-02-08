@@ -16,10 +16,9 @@ class UploadsController extends AjaxMultiUploadAppController {
 	public $uses = null;
 
 	// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-	var $allowedExtensions = array();
+	public $allowedExtensions = array();
 
-	function upload($dir=null) {
-       	require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
+	public function upload($dir=null) {
 		// max file size in bytes
 		$size = Configure::read ('AMU.filesizeMB');
 		if (strlen($size) < 1) $size = 4;
