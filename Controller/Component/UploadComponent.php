@@ -10,12 +10,25 @@
  *                and/or GNU GPL v3 (http://www.gnu.org/copyleft/gpl.html)
  */
  
-
-
  
 class UploadComponent extends Component {
 	
-	
+	public $controller = null;
+	public $settings = array();
+    
+/**
+ * Constructor
+ *
+ * @param ComponentCollection $collection A ComponentCollection this component can use to lazy load its components
+ * @param array $settings Array of configuration settings
+ * @access public
+ */
+	public function __construct(ComponentCollection $collection, $settings = array()) {
+		parent::__construct($collection, $settings);
+		$this->controller = $collection->getController();
+		$this->settings = $settings;
+	}
+
 /**
  * Component startup method.
  * Called after the Controller::beforeFilter() and before the controller action
