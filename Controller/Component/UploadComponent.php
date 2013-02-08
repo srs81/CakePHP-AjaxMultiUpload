@@ -29,7 +29,6 @@ class UploadComponent extends Component {
 	}
 
 	public function deleteAll ($model, $id) {
-		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
 		$dir = Configure::read('AMU.directory');
 		if (strlen($dir) < 1) $dir = "files";
 
