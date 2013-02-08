@@ -35,7 +35,7 @@ Open Config/bootstrap.php and add this line:
 CakePlugin::load('AjaxMultiUpload', array('bootstrap' => true));
 ```
 
-This will allow the plugin to load all the files that it needs included it's own bootstrap.
+This will allow the plugin to load all the files that it needs including it's own bootstrap.
 
 ### Create file directory
 
