@@ -43,7 +43,6 @@ class UploadHelper extends AppHelper {
 	}
 
 	public function listing ($model, $id) {
-		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
 		$dir = Configure::read('AMU.directory');
 		if (strlen($dir) < 1) $dir = "files";
 
@@ -55,7 +54,6 @@ class UploadHelper extends AppHelper {
 	}
 
 	public function edit ($model, $id) {
-		require_once (ROOT . DS . APP_DIR . "/Plugin/AjaxMultiUpload/Config/bootstrap.php");
 		$dir = Configure::read('AMU.directory');
 		if (strlen($dir) < 1) $dir = "files";
 
@@ -117,12 +115,12 @@ END;
 	}
 
 	// The "last mile" of the directory path for where the files get uploaded
-	function last_dir ($model, $id) {
+	public function last_dir ($model, $id) {
 		return $model . "/" . $id;
 	}
 
 	// From http://php.net/manual/en/function.filesize.php
-	function format_bytes($size) {
+	public function format_bytes($size) {
 		$units = array(' B', ' KB', ' MB', ' GB', ' TB');
 		for ($i = 0; $size >= 1024 && $i < 4; $i++) $size /= 1024;
 		return round($size, 2).$units[$i];
