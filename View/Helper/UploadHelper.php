@@ -12,13 +12,18 @@
  
 class UploadHelper extends AppHelper {
 
-
 	public function view ($model, $id, $edit=false) {
 		$results = $this->listing ($model, $id);
 				
 		$directory = $results['directory'];
 		$baseUrl = $results['baseUrl'];
 		$files = $results['files'];
+
+        $allIconFiles = array();
+        foreach (glob(ROOT . DS . "app/Plugin/AjaxMultiUpload/webroot/img/fileicons/*") as $iconFile) {
+            $iconFile = pathinfo($iconFile, PATHINFO_FILENAME);
+            $allIconFiles[] = str_replace(".png", "", $iconFile);
+        }
 
 		$str = "<dt>" . __("Files") . "</dt>\n<dd>";
 		$count = 0;
@@ -34,7 +39,9 @@ class UploadHelper extends AppHelper {
 				$str .= "<a href='$delUrl'><img src='" . Router::url("/") . 
 					"ajax_multi_upload/img/delete.png' alt='Delete' /></a> ";
 			}
-			$str .= "<img src='" . Router::url("/") . "ajax_multi_upload/img/fileicons/$type.png' /> ";
+            if (in_array($type, $allIconFiles)) {
+                $str .= "<img src='" . Router::url("/") . "ajax_multi_upload/img/fileicons/$type.png' /> ";
+            }
 			$str .= "<a href='$url'>" . $f . "</a> ($filesize)";
 			$str .= "<br />\n";
 		}
@@ -55,61 +62,23 @@ class UploadHelper extends AppHelper {
 
 	public function edit ($model, $id) {
 		$dir = Configure::read('AMU.directory');
-		if (strlen($dir) < 1) $dir = "files";
+		if ($dir === "") $dir = "files";
+        $size = Configure::read ('AMU.filesizeMB');
+        if ($size === "") $size = 4;
 
 		$str = $this->view ($model, $id, true);
 		$webroot = Router::url("/") . "ajax_multi_upload";
 		// Replace / with underscores for Ajax controller
-		$lastDir = str_replace ("/", "___", 
-			$this->last_dir ($model, $id));
+		$lastDir = str_replace ("/", "___", $this->last_dir ($model, $id));
 		$str .= <<<END
-			<br /><br />
-			<link rel="stylesheet" type="text/css" href="$webroot/css/fileuploader.css" />
-			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
-			<div class="AjaxMultiUpload$lastDir" name="AjaxMultiUpload">
-				<noscript>
-					 <p>Please enable JavaScript to use file uploader.</p>
-				</noscript>
-			</div>
-			<script src="$webroot/js/fileuploader.js" type="text/javascript"></script>
-			<script>
-				if (typeof document.getElementsByClassName!='function') {
-				    document.getElementsByClassName = function() {
-				        var elms = document.getElementsByTagName('*');
-				        var ei = new Array();
-				        for (i=0;i<elms.length;i++) {
-				            if (elms[i].getAttribute('class')) {
-				                ecl = elms[i].getAttribute('class').split(' ');
-				                for (j=0;j<ecl.length;j++) {
-				                    if (ecl[j].toLowerCase() == arguments[0].toLowerCase()) {
-				                        ei.push(elms[i]);
-				                    }
-				                }
-				            } else if (elms[i].className) {
-				                ecl = elms[i].className.split(' ');
-				                for (j=0;j<ecl.length;j++) {
-				                    if (ecl[j].toLowerCase() == arguments[0].toLowerCase()) {
-				                        ei.push(elms[i]);
-				                    }
-				                }
-				            }
-				        }
-				        return ei;
-				    }
-				}
-				function createUploader(){
-					var amuCollection = document.getElementsByClassName("AjaxMultiUpload$lastDir");
-					for (var i = 0, max = amuCollection.length; i < max; i++) {
-							action = amuCollection[i].className.replace('AjaxMultiUpload', '');
-							window['uploader'+i] = new qq.FileUploader({
-								element: amuCollection[i],
-								action: '$webroot/uploads/upload/' + action + '/',
-								debug: true
-							});
-						}
-					}
-				window.onload = createUploader;     
-			</script>
+		    <script type="text/javascript">
+		        Dropzone.options = {
+                    maxFilesize = $size
+		        }
+		    </script>
+			<link rel="stylesheet" type="text/css" href="$webroot/css/dropzone.css" />
+			<script src="$webroot/js/dropzone.js" type="text/javascript"></script>
+			<form action='$webroot/uploads/upload/$lastDir/' class="dropzone" id="dropzone-$model-$id"></form>
 END;
 		return $str;
 	}

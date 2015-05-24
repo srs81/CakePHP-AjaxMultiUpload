@@ -21,14 +21,15 @@ class UploadsController extends AjaxMultiUploadAppController {
 	public function upload($dir=null) {
 		// max file size in bytes
 		$size = Configure::read ('AMU.filesizeMB');
-		if (strlen($size) < 1) $size = 4;
+		if ($size === "") $size = 4;
 		$relPath = Configure::read ('AMU.directory');
-		if (strlen($relPath) < 1) $relPath = "files";
+		if ($relPath === "") $relPath = "files";
 
 		$sizeLimit = $size * 1024 * 1024;
-                $this->layout = "ajax";
-	        Configure::write('debug', 0);
+        $this->layout = "ajax";
+        Configure::write('debug', 0);
 		$directory = WWW_ROOT . DS . $relPath;
+        $result = array();
  
 		if ($dir === null) {
 			$this->set("result", "{\"error\":\"Upload controller was passed a null value.\"}");
@@ -40,10 +41,28 @@ class UploadsController extends AjaxMultiUploadAppController {
 		if (!file_exists($dir)) {
 			mkdir($dir, 0777, true);
 		}
-		$uploader = new qqFileUploader($this->allowedExtensions, 
-			$sizeLimit);
-		$result = $uploader->handleUpload($dir);
-		$this->set("result", htmlspecialchars(json_encode($result), ENT_NOQUOTES));
+        if (!is_writable($dir)){
+            $result = array('error' => "Server error. Upload directory isn't writable. Please ask server admin to change permissions.");
+        }
+        if (!empty($_FILES)) {
+            $tempFile = $_FILES['file']['tmp_name'];
+            $targetPath = $dir;
+            $targetFile = $targetPath . $_FILES['file']['name'];
+            $fileSize = filesize($tempFile);
+            if ($fileSize > $sizeLimit) {
+                $result = array('error' => 'File is too large. Please ask server admin to increase the file upload limit.');
+            } else {
+                move_uploaded_file($tempFile, $targetFile);
+            }
+        } else {
+            $result = array('error' => 'No files were uploaded.');
+        }
+
+        if (sizeof($result) > 0) {
+            $this->set("result", htmlspecialchars(json_encode($result), ENT_NOQUOTES));
+            $this->response->type('json');
+            $this->response->statusCode(400);
+        }
 	}
 
 	/**
