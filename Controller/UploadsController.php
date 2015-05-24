@@ -44,12 +44,12 @@ class UploadsController extends AjaxMultiUploadAppController {
         }
         if (!empty($_FILES)) {
             $tempFile = $_FILES['file']['tmp_name'];
-            if ($this->endsWith($tempFile, ".php")) {
-                $result = array('error' => 'You are not allowed to upload PHP files for security reasons.');
-            }
             $targetPath = $dir;
             $targetFile = $targetPath . $_FILES['file']['name'];
             $fileSize = filesize($tempFile);
+            if ($this->endsWith($targetFile, ".php")) {
+                $result = array('error' => 'You are not allowed to upload PHP files for security reasons.');
+            }
             if ($fileSize > $sizeLimit) {
                 $result = array('error' => 'File is too large. Please ask server admin to increase the file upload limit.');
             }
