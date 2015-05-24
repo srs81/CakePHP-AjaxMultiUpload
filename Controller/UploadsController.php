@@ -13,7 +13,6 @@
 class UploadsController extends AjaxMultiUploadAppController {
 
 	public $name = "Upload";
-	public $uses = null;
 
 	// list of valid extensions, ex. array("jpeg", "xml", "bmp")
 	public $allowedExtensions = array();
@@ -32,8 +31,7 @@ class UploadsController extends AjaxMultiUploadAppController {
         $result = array();
  
 		if ($dir === null) {
-			$this->set("result", "{\"error\":\"Upload controller was passed a null value.\"}");
-			return;
+			$result = array("error" => "Upload controller was passed a null value.");
 		}
 		// Replace underscores delimiter with slash
 		$dir = str_replace ("___", "/", $dir);

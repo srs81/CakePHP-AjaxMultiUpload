@@ -25,8 +25,9 @@ class UploadHelper extends AppHelper {
             $allIconFiles[] = str_replace(".png", "", $iconFile);
         }
 
-		$str = "<dt>" . __("Files") . "</dt>\n<dd>";
-		$count = 0;
+        if (sizeof($files) > 0) {
+            $str = "<dt>" . __("Files") . "</dt>\n<dd>";
+        }
 		$webroot = Router::url("/") . "ajax_multi_upload";
 		foreach ($files as $file) {
 			$type = pathinfo($file, PATHINFO_EXTENSION);
