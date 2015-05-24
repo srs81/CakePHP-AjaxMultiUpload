@@ -9,6 +9,8 @@ it. You can upload multiple files at a time without having to click
 on any button, and it shows you a nice progress notification during
 uploads. You can also delete files in edit mode.
 
+As of May 2015, this now uses Dropzone.js to allow file uploads.
+
 ## How to Use
 
 ### Download or checkout
@@ -214,6 +216,7 @@ This allows you to upload and two sets of files to your same entity/object in a 
 
 ## ChangeLog
 
+* Version 1.1.0 / May 21 2015: now uses Dropzone.js instead of the older file upload
 * Version 1.0.3 / Jul 30 2012: multiple view/edit on same views possible (thanks to bobartlett@github)
 * Version 1.0.2 / Jul 16 2012: deleteAll() and listing() functionality added
 * Version 1.0.1 / Apr 02 2012: Delete functionality - from view() - added
