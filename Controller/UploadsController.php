@@ -44,6 +44,9 @@ class UploadsController extends AjaxMultiUploadAppController {
         }
         if (!empty($_FILES)) {
             $tempFile = $_FILES['file']['tmp_name'];
+            if ($this->endsWith($tempFile, ".php")) {
+                $result = array('error' => 'You are not allowed to upload PHP files for security reasons.');
+            }
             $targetPath = $dir;
             $targetFile = $targetPath . $_FILES['file']['name'];
             $fileSize = filesize($tempFile);
@@ -87,6 +90,12 @@ class UploadsController extends AjaxMultiUploadAppController {
 		
 		$this->redirect($this->referer());	
 	}
+
+    // From http://stackoverflow.com/a/10473026/2033901
+    function endsWith($haystack, $needle) {
+        // search forward starting from end minus needle length characters
+        return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== FALSE);
+    }
 }
 
 ?>
