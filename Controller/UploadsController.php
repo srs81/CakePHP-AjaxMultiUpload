@@ -52,7 +52,8 @@ class UploadsController extends AjaxMultiUploadAppController {
             $fileSize = filesize($tempFile);
             if ($fileSize > $sizeLimit) {
                 $result = array('error' => 'File is too large. Please ask server admin to increase the file upload limit.');
-            } else {
+            }
+            if (sizeof($result) == 0) {
                 move_uploaded_file($tempFile, $targetFile);
             }
         } else {
