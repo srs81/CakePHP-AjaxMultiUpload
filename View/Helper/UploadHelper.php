@@ -12,6 +12,8 @@
  
 class UploadHelper extends AppHelper {
 
+	$acceptedFiles = "";
+
 	public function view ($model, $id, $edit=false) {
 		$results = $this->listing ($model, $id);
 				
@@ -74,10 +76,16 @@ class UploadHelper extends AppHelper {
 		$webroot = Router::url("/") . "ajax_multi_upload";
 		// Replace / with underscores for Ajax controller
 		$lastDir = str_replace ("/", "___", $this->last_dir ($model, $id));
+		if ($acceptedFiles === "") {
+			$acceptedFilesStr = "";
+		} else {
+			$acceptedFilesStr = "acceptedFiles: \"$acceptedFiles\"";
+		}
 		$str .= <<<END
 		    <script type="text/javascript">
 		        Dropzone.options = {
-                    maxFilesize = $size
+                    maxFilesize = $size, 
+                    $acceptedFilesStr
 		        }
 		    </script>
 			<link rel="stylesheet" type="text/css" href="$webroot/css/dropzone.css" />
@@ -85,6 +93,12 @@ class UploadHelper extends AppHelper {
 			<form action='$webroot/uploads/upload/$lastDir/' class="dropzone" id="dropzone-$model-$id"></form>
 END;
 		return $str;
+	}
+
+	// Set accepted files for Dropzone
+	// Documentation: http://stackoverflow.com/a/17275873
+	public function setAcceptedFiles($fileList) {
+		$acceptedFiles = $fileList;
 	}
 
 	// The "last mile" of the directory path for where the files get uploaded

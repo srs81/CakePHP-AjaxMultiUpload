@@ -112,6 +112,17 @@ Add the following to the delete() function of your Company controller where appr
 echo $this->Upload->deleteAll('Company', $id);
 ```
 
+### Restrict file types to upload
+
+Just before adding the line to allow upload (this->Upload->Edit), add this to restrict to only the types and/or extensions you want:
+```php
+echo $this->Upload->setAcceptedFiles("audio/*,image/*,.psd,.pdf");
+```
+
+If you don't specify this line, users will be able to upload all file types (so all files types are allowed by default.)
+
+Documentation on the string to use to specify files / types to upload is in this Stackoverflow answer about Dropzone allowed types: http://stackoverflow.com/a/17275873
+
 ## Some Gotchas
 
 Thanks to rscherf@github for the following two fixes.
@@ -227,6 +238,7 @@ This allows you to upload and two sets of files to your same entity/object in a 
 
 ## ChangeLog
 
+* Version 1.1.1 / Jul 22 2015: you can now restrict file types that can be uploaded
 * Version 1.1.0 / May 21 2015: now uses Dropzone.js instead of the older file upload
 * Version 1.0.3 / Jul 30 2012: multiple view/edit on same views possible (thanks to bobartlett@github)
 * Version 1.0.2 / Jul 16 2012: deleteAll() and listing() functionality added

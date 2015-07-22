@@ -14,9 +14,6 @@ class UploadsController extends AjaxMultiUploadAppController {
 
 	public $name = "Upload";
 
-	// list of valid extensions, ex. array("jpeg", "xml", "bmp")
-	public $allowedExtensions = array();
-
 	public function upload($dir=null) {
 		// max file size in bytes
 		$size = Configure::read ('AMU.filesizeMB');
