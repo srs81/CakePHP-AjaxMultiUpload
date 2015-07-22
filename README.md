@@ -123,7 +123,18 @@ compatible or incompatible ones), you need to modify the controller
 to allow uploads to work.
 
 Add these lines to the UploadsController.php (you may have to modify
-slightly depending on your Auth setup):
+slightly depending on your Auth setup). Thanks to @notoriousturtle for the fix for CakePHP 2.5 and above.
+
+##### CakePHP 2.5 and above
+
+```php
+public function beforeFilter() {
+	parent::beforeFilter();
+	// Need to disable Security component
+    $this->Security->unlockedActions = array('upload');
+}
+```
+##### Before CakePHP 2.5
 
 ```php
 public function isAuthorized() {
@@ -224,12 +235,12 @@ This allows you to upload and two sets of files to your same entity/object in a 
 
 ## Thanks
 
-This uses the Ajax Upload script from: http://valums.com/ajax-upload/
-and file icons from: http://www.splitbrain.org/projects/file_icons .
+This uses the Dropzone.js Javascript library for file uploads: http://www.dropzonejs.com/ and file icons from: http://www.splitbrain.org/projects/file_icons . (The plugin previously used an Ajax Upload script from: http://valums.com/ajax-upload/)
 
 Also, thanks to contributions from the following GitHub users: 
 * @rscherf : Getting it to work with Auth and sub-domains
 * @bobartlett : Fix to allow multiple AMU helpers in same view
+* @notoriousturtle : Fix to Auth to get it working in CakePHP 2.5 and above
 
 ## Support
 
