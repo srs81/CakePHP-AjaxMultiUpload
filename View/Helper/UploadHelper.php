@@ -19,15 +19,18 @@ class UploadHelper extends AppHelper {
 		$baseUrl = $results['baseUrl'];
 		$files = $results['files'];
 
+        if (sizeof($files) == 0) {
+        	return "";
+        }
+
         $allIconFiles = array();
         foreach (glob(ROOT . DS . "app/Plugin/AjaxMultiUpload/webroot/img/fileicons/*") as $iconFile) {
             $iconFile = pathinfo($iconFile, PATHINFO_FILENAME);
             $allIconFiles[] = str_replace(".png", "", $iconFile);
         }
 
-        if (sizeof($files) > 0) {
-            $str = "<dt>" . __("Files") . "</dt>\n<dd>";
-        }
+        $str = "<dt>" . __("Files") . "</dt>\n";
+        $str .= "<dd>\n";
 		$webroot = Router::url("/") . "ajax_multi_upload";
 		foreach ($files as $file) {
 			$type = pathinfo($file, PATHINFO_EXTENSION);
