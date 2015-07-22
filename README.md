@@ -114,12 +114,12 @@ echo $this->Upload->deleteAll('Company', $id);
 
 ### Restrict file types to upload
 
-Just before adding the line to allow upload (this->Upload->Edit), add this to restrict to only the types and/or extensions you want:
+Add a third parameter to the this->Upload->edit() function, which specifies which types you want to restrict the upload to.
 ```php
-echo $this->Upload->setAcceptedFiles("audio/*,image/*,.psd,.pdf");
+echo $this->Upload->edit('Company', $this->Form->fields['Company.id'], "audio/*,image/*,.psd,.pdf");
 ```
 
-If you don't specify this line, users will be able to upload all file types (so all files types are allowed by default.)
+If you don't specify the third parameter, users will be able to upload all file types (so all files types are allowed by default.)
 
 Documentation on the string to use to specify files / types to upload is in this Stackoverflow answer about Dropzone allowed types: http://stackoverflow.com/a/17275873
 
