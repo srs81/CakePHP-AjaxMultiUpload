@@ -80,14 +80,14 @@ class UploadHelper extends AppHelper {
 			$acceptedFilesStr = "acceptedFiles: \"$acceptedFiles\"";
 		}
 		$str .= <<<END
+			<script src="$webroot/js/dropzone.js" type="text/javascript"></script>
 		    <script type="text/javascript">
 		        Dropzone.options = {
-                    maxFilesize = $size, 
+                    maxFilesize: $size, 
                     $acceptedFilesStr
 		        }
 		    </script>
 			<link rel="stylesheet" type="text/css" href="$webroot/css/dropzone.css" />
-			<script src="$webroot/js/dropzone.js" type="text/javascript"></script>
 			<form action='$webroot/uploads/upload/$lastDir/' class="dropzone" id="dropzone-$model-$id"></form>
 END;
 		return $str;
