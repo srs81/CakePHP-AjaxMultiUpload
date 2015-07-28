@@ -58,16 +58,19 @@ class UploadsController extends AjaxMultiUploadAppController {
         }
 
         if (sizeof($result) > 0) {
-            $this->set("result", htmlspecialchars(json_encode($result), ENT_NOQUOTES));
-            $this->response->type('json');
+        	// There was an issue with the upload
             $this->response->statusCode(400);
+        } else {
+        	// The upload was a success
+        	$result = array('ok' => 'upload success');
+        	$this->response->statusCode(200);
         }
+        $this->response->type('json');
+        $this->set("result", htmlspecialchars(json_encode($result), ENT_NOQUOTES));
 	}
 
 	/**
-	 *
 	 * delete a file
-	 *
 	 * Thanks to traedamatic @ github
 	 */
 	public function delete($file = null) {
