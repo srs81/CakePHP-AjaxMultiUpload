@@ -14,6 +14,14 @@ class UploadsController extends AjaxMultiUploadAppController {
 
 	public $name = "Upload";
 
+	public function isAuthorized() {
+		return true;
+	}
+
+	public function beforeFilter() {
+		$this->Auth->allow(array('upload','delete'));
+	}
+	
 	public function upload($dir=null) {
 		// max file size in bytes
 		$size = Configure::read ('AMU.filesizeMB');
